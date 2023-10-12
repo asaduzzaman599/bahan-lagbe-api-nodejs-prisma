@@ -1,10 +1,12 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 
 import { Prisma } from '@prisma/client';
-import { IGenericErrorMessage } from '../../interface/error'
+import { IGenericErrorMessage, IGenericErrorResponse } from '../../interface/error'
 import handleValidationError from '../../errors/handle-validation-error'
 import handleClientError from '../../errors/handle-client-error'
 import ApiError from '../../errors/api-error'
+import { ZodError } from 'zod';
+import handleZodError from '../../errors/handle-zod-error'
 
 const globalErrorHandler: ErrorRequestHandler = (
   error,
@@ -24,6 +26,11 @@ const globalErrorHandler: ErrorRequestHandler = (
     errorMessages = simplifiedError.errorMessages;
   }  else if (error instanceof Prisma.PrismaClientKnownRequestError) {
     const simplifiedError = handleClientError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
+  }else if (error instanceof ZodError) {
+    const simplifiedError: IGenericErrorResponse = handleZodError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;

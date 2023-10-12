@@ -1,6 +1,6 @@
 import { ZodError } from 'zod';
-import { IGenericErrorResponse } from '../app/interfaces/error-response.interface';
-import { IGenericErrorMessage } from '../app/interfaces/error-message.interface';
+import { IGenericErrorMessage, IGenericErrorResponse } from '../interface/error'
+
 
 const handleZodError = (err: ZodError): IGenericErrorResponse => {
   const statusCode = 400;
