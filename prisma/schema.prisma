@@ -54,7 +54,7 @@ model Vehicle{
   model String
   type Type  @default(small)
   plateNumber String
-  pricePerHour Int @default(0)
+  price Int @default(0)
 
   categoryId String
   category Category @relation(fields: [categoryId], references: [id])
@@ -121,7 +121,8 @@ enum Type {
 
 enum BookingStatus {
   pending
-  confirmed
+  booked
   cancelled
-  completed
+  reject
+  complete
 }
