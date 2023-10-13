@@ -12,23 +12,116 @@ datasource db {
 
 
 model User {
-id String @id @default(uuid())
-name String
-email String @unique
-password String
-role Role @default(customer)
-contactNo String
-address String
-profileImg String?
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  password String
+  role Role @default(customer)
+  contactNo String
+  address String
+  profileImg String?
 
-createdAt DateTime @default(now())
-updateAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 
-@@map("users")
+
+  bookings Booking[]
+  reviewAndRatings ReviewAndRating[]
+
+  @@map("users")
 }
 
 enum Role {
   super_admin
   admin
   customer
+}
+
+model Category{
+  id String @id @default(uuid())
+  title String
+
+  vehicles Vehicle[]
+
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Vehicle{
+  id String @id @default(uuid())
+  model String
+  type Type  @default(small)
+  plateNumber String
+  pricePerHour Int @default(0)
+
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
+
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@map("vehicles")
+}
+
+model Booking {
+  id String @unique @default(uuid())
+
+  startTime DateTime
+  endTIme DateTime
+
+  total Int @default(0)
+
+  vehicleId String
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  reviewAndRatings ReviewAndRating[]
+
+  status BookingStatus @default(pending)
+
+  
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@map("bookings")
+}
+
+
+model ReviewAndRating {
+
+  review String
+  rating Float 
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  bookingId String
+  booking Booking @relation(fields: [bookingId], references: [id])
+
+
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@id([userId, bookingId])  
+  @@map("reviewAndRatings")
+}
+
+
+enum Type {
+  large
+  medium
+  small
+}
+
+enum BookingStatus {
+  pending
+  confirmed
+  cancelled
+  completed
 }

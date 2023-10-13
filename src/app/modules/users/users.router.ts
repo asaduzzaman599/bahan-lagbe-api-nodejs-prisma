@@ -8,13 +8,14 @@ import { UserValidation } from './users.validation'
 const router = express.Router()
 
 router.route('/')
-.get(auth(Role.admin), UserController.findUsers)
+.get(auth(Role.admin, Role.super_admin), UserController.findUsers)
+
 router.route('/create-admin')
-.post(auth(Role.admin),validateRequest(UserValidation.createUserValidation), UserController.insertUser)
+.post(auth(Role.admin, Role.super_admin),validateRequest(UserValidation.createUserValidation), UserController.insertUser)
 
 router.route('/:id')
-.get(auth(Role.admin), UserController.findOneUser)
-.patch(auth(Role.admin), validateRequest(UserValidation.updateUserValidation), UserController.updateUser)
-.delete(auth(Role.admin), UserController.deleteUser)
+.get(auth(Role.admin, Role.super_admin), UserController.findOneUser)
+.patch(auth(Role.admin, Role.super_admin), validateRequest(UserValidation.updateUserValidation), UserController.updateUser)
+.delete(auth(Role.admin,Role.super_admin), UserController.deleteUser)
 
 export const UserRouter = router
