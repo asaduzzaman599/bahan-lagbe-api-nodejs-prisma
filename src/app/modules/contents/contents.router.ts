@@ -7,7 +7,7 @@ import validateRequest from '../../middlewares/validate-request'
 
 const router = express.Router()
 
-router.route('/create-content').post(validateRequest(ContentValidation.updateContentZodSchema), auth(Role.admin, Role.super_admin), ContentController.insertContent)
+router.route('/create-content').post(validateRequest(ContentValidation.createContentZodSchema), auth(Role.admin, Role.super_admin), ContentController.insertContent)
 
 router.route('/')
 .get(ContentController.findContents)

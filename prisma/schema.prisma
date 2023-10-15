@@ -75,7 +75,7 @@ model Booking {
   id String @unique @default(uuid())
 
   startTime DateTime
-  endTIme DateTime
+  endTime DateTime
 
   total Int @default(0)
 
@@ -98,6 +98,8 @@ model Booking {
 
 
 model ReviewAndRating {
+
+  id String @unique @default(uuid())
 
   review String
   rating Float 

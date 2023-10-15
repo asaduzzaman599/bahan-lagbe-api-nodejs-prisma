@@ -37,7 +37,7 @@ const findBookings = catchAsync(async (req, res) => {
   const query = req.query
   const user = (req as any).user as IValidateUser;
   const paginationOptions = pick(query,['page', 'size','sortBy','sortOrder'])
-  const filterOptions = pick(query,['search', 'minPrice','maxPrice'])
+  const filterOptions = pick(query,['search', 'minPrice','maxPrice', 'status'])
   const result = await BookingService.findBookings(user,filterOptions,paginationOptions);
   return responseData({ message: "Bookings retrieved successfully", result:  { result: result.data, meta: result.meta}}, res);
 });
@@ -48,7 +48,7 @@ const findBookingByVehicle = catchAsync(async (req, res) => {
   const vehicleId = req.params.vehicleId
   const query = req.query
   const paginationOptions = pick(query,['page', 'size','sortBy','sortOrder'])
-  const filterOptions = pick(query,['minTotal','maxTotal', 'minRating', 'rating'])
+  const filterOptions = pick(query,['minTotal','maxTotal', 'minRating', 'rating', 'status'])
   filterOptions.vehicleId = vehicleId
   const result = await BookingService.findBookings(user, filterOptions,paginationOptions);
   return responseData({ message: "Booking with associated Vehicles data fetched successfully", result:  { result: result.data, meta: result.meta}}, res);

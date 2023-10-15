@@ -7,14 +7,14 @@ import validateRequest from '../../middlewares/validate-request'
 
 const router = express.Router()
 
-router.route('/create-feedback').post(validateRequest(FeedbackValidation.updateFeedbackZodSchema), auth(Role.customer, 'public'), FeedbackController.insertFeedback)
+router.route('/create-feedback').post(validateRequest(FeedbackValidation.createFeedbackZodSchema), auth(Role.customer, 'public'), FeedbackController.insertFeedback)
 
 router.route('/')
 .get(FeedbackController.findFeedbacks)
 
 router.route('/:id')
 .get(FeedbackController.findOneFeedback)
-.patch(validateRequest(FeedbackValidation.updateFeedbackZodSchema), auth(Role.customer, 'any'), FeedbackController.updateFeedback)
-.delete(auth(Role.customer, 'any'), FeedbackController.deleteFeedback)
+.patch(validateRequest(FeedbackValidation.updateFeedbackZodSchema), auth(Role.customer, Role.admin, Role.super_admin), FeedbackController.updateFeedback)
+.delete(auth(Role.admin, Role.super_admin), FeedbackController.deleteFeedback)
 
 export const FeedbackRouter = router

@@ -1,6 +1,7 @@
 
 import catchAsync from "../../../shared/catch-async"
 import responseData from "../../../shared/response";
+import { IValidateUser } from "../auth/auth.interface"
 import { UserService } from "./users.service";
 
 const insertUser = catchAsync(async (req, res) => {
@@ -14,8 +15,9 @@ const insertUser = catchAsync(async (req, res) => {
 const updateUser = catchAsync(async (req, res) => {
   const id = req.params.id;
   const data = req.body;
+  const user =(req as any).user as IValidateUser
 
-  const result = await UserService.updateUser(id, data);
+  const result = await UserService.updateUser(id, data, user);
 
   return responseData({ message: "User updated  successfully", result }, res);
 });

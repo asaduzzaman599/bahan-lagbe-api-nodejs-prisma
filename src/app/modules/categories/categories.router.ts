@@ -7,7 +7,7 @@ import validateRequest from '../../middlewares/validate-request'
 
 const router = express.Router()
 
-router.route('/create-category').post(validateRequest(CategoryValidation.updateCategoryZodSchema), auth(Role.admin, Role.super_admin), CategoryController.insertCategory)
+router.route('/create-category').post(validateRequest(CategoryValidation.createCategoryZodSchema), auth(Role.admin, Role.super_admin), CategoryController.insertCategory)
 
 router.route('/')
 .get(CategoryController.findCategories)

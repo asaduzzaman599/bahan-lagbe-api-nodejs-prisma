@@ -88,7 +88,11 @@ const findOneVehicle = async (id: string): Promise<Vehicle | null> => {
       id,
     },
     include: {
-      bookings: true,
+      bookings: {
+        include: {
+          reviewAndRatings: true
+        }
+      },
       category: true
     },
   });
@@ -151,7 +155,11 @@ const findVehicles = async (
   const vehicles = await prismaClient.vehicle.findMany({
     where: whereCondition,
     include: {
-      bookings: true,
+      bookings: {
+        include: {
+          reviewAndRatings: true
+        }
+      },
       category: true
     },
     skip,

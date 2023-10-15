@@ -68,7 +68,15 @@ const findOneCategory = async (id: string): Promise<Category | null> => {
       id
     },
     include: {
-      vehicles: true
+      vehicles: {
+        include: {
+          bookings: {
+            include: {
+              reviewAndRatings: true
+            }
+          }
+        }
+      }
     }
   })
 
@@ -81,7 +89,15 @@ const findOneCategory = async (id: string): Promise<Category | null> => {
 const findCategories = async (): Promise<Category[]> => {
   const categories = await prismaClient.category.findMany({
     include: {
-      vehicles: true
+      vehicles: {
+        include: {
+          bookings: {
+            include: {
+              reviewAndRatings: true
+            }
+          }
+        }
+      }
     }
   })
 

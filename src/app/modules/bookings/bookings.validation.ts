@@ -4,7 +4,7 @@ const createBookingZodSchema = z.object({
     startTime: z.string({
       required_error: "Start time and date is required!",
     }),
-    endTIme: z.string({
+    endTime: z.string({
       required_error: "End time and date is required!",
     }),
     vehicleId: z.string({
@@ -18,7 +18,7 @@ const updateBookingZodSchema = z.object({
     startTime: z.string({
       required_error: "Start time and date is required!",
     }).optional(),
-    endTIme: z.string({
+    endTime: z.string({
       required_error: "End time and date is required!",
     }).optional(),
     vehicleId: z.string({

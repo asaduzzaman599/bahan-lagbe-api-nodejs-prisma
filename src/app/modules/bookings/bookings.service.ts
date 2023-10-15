@@ -17,24 +17,23 @@ import { BookingUtils } from "./bookings.utils";
 
 const insertBooking = async (payload: Booking): Promise<Booking> => {
   return await prismaClient.$transaction(async (trxClient) => {
-    if (payload.status) {
       const existBooking = await trxClient.booking.findMany({
         where: {
           vehicleId: payload.vehicleId,
-          status: {
+           status: {
             in: [BookingStatus.PENDING, BookingStatus.BOOKED],
           },
         },
       });
+
       if (existBooking.length)
         throw new ApiError(httpStatus.CONFLICT, "This vehicle already booked");
-    }
-
+    
     if (!payload.status) payload.status = BookingStatus.PENDING;
 
     const total = await BookingUtils.calculateTotal(
       payload.startTime,
-      payload.endTIme,
+      payload.endTime,
       payload.vehicleId
     );
 
@@ -96,9 +95,23 @@ const updateBooking = async (
           "Invalid status can not proceed"
         );
       }
+      if(payload.status && exist.status !== payload.status){
+        if(!(payload.status === BookingStatus.PENDING || payload.status === BookingStatus.CANCELLED)){
+          if(user.role === Role.customer) throw new ApiError(
+            httpStatus.NOT_ACCEPTABLE,
+            "Admin Only"
+          );
+        }else {
+          if(user.role !== Role.customer) throw new ApiError(
+            httpStatus.NOT_ACCEPTABLE,
+            "Customer Only"
+          );
+        }
+      }
+
       const existBooking = await trxClient.booking.findMany({
         where: {
-          vehicleId: payload.vehicleId,
+          vehicleId: payload.vehicleId ?? exist.vehicleId,
           status: {
             in: [BookingStatus.PENDING, BookingStatus.BOOKED],
           },
@@ -114,7 +127,7 @@ const updateBooking = async (
 
     const total = await BookingUtils.calculateTotal(
       payload.startTime ?? exist.startTime,
-      payload.endTIme ?? exist.endTIme,
+      payload.endTime ?? exist.endTime,
       payload.vehicleId ?? exist.vehicleId
     );
 
@@ -162,7 +175,7 @@ const findOneBooking = async (
     payload.role === Role.customer &&
     payload.userId !== bookingExist?.userId
   ) {
-    throw new ApiError(httpStatus.FORBIDDEN, "You are not authorized!");
+    throw new ApiError(httpStatus.FORBIDDEN, "FORBIDDEN!");
   }
 
   return bookingExist;
