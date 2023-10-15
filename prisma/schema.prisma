@@ -52,14 +52,16 @@ model Category{
 model Vehicle{
   id String @id @default(uuid())
   model String
-  type Type  @default(small)
+  type Type  @default(SMALL)
   plateNumber String
   price Int @default(0)
+  status VehicleStatus @default(AVAILABLE)
 
   categoryId String
   category Category @relation(fields: [categoryId], references: [id])
 
   bookings Booking[]
+
 
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -81,9 +83,9 @@ model Booking {
   userId String
   user User @relation(fields: [userId], references: [id])
 
-  reviewAndRatings ReviewAndRating[]
+  reviewAndRatings ReviewAndRating?
 
-  status BookingStatus @default(pending)
+  status BookingStatus @default(PENDING)
 
   
   createdAt DateTime @default(now())
@@ -101,28 +103,34 @@ model ReviewAndRating {
   userId String
   user User @relation(fields: [userId], references: [id])
 
-  bookingId String
+  bookingId String @unique
   booking Booking @relation(fields: [bookingId], references: [id])
 
 
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  @@id([userId, bookingId])  
+  @@id([userId, bookingId]) 
   @@map("reviewAndRatings")
 }
 
 
 enum Type {
-  large
-  medium
-  small
+  LARGE
+  MEDIUM
+  SMALL
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  BOOKED
+  NOTAVAILABLE
 }
 
 enum BookingStatus {
-  pending
-  booked
-  cancelled
-  reject
-  complete
+  PENDING
+  BOOKED
+  CANCELLED
+  REJECT
+  COMPLETED
 }

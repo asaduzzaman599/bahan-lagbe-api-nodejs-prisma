@@ -39,7 +39,7 @@ const findOneVehicle = catchAsync(async (req, res) => {
 const findVehicles = catchAsync(async (req, res) => {
   const query = req.query
   const paginationOptions = pick(query,['page', 'size','sortBy','sortOrder'])
-  const filterOptions = pick(query,['search', 'minPrice','maxPrice','category'])
+  const filterOptions = pick(query,['search', 'minPrice','maxPrice','status'])
   const result = await VehicleService.findVehicles(filterOptions,paginationOptions);
   return responseData({ message: "Vehicles retrieved successfully",result:  { result: result.data, meta: result.meta}}, res);
 });
@@ -48,7 +48,7 @@ const findVehicleByCategory = catchAsync(async (req, res) => {
   const categoryId = req.params.categoryId
   const query = req.query
   const paginationOptions = pick(query,['page', 'size','sortBy','sortOrder'])
-  const filterOptions = pick(query,['search', 'minPrice','maxPrice','category'])
+  const filterOptions = pick(query,['search', 'minPrice','maxPrice','status'])
   filterOptions.categoryId = categoryId
   const result = await VehicleService.findVehicles(filterOptions,paginationOptions);
   return responseData({ message: "Vehicles with associated category data fetched successfully", result:  { result: result.data, meta: result.meta}}, res);
