@@ -7,6 +7,9 @@ const signInAuthZodSchema = z.object({
     password: z.string({
       required_error: "password is required!",
     }),
+    profileImg:  z.string({
+      required_error: "Profile image is required!",
+    }).optional()
   }),
 });
 
@@ -30,6 +33,9 @@ const signUpAuthZodSchema = z.object({
     address: z.string({
       required_error: "Address is required!",
     }),
+    profileImg:  z.string({
+      required_error: "Profile image is required!",
+    }).optional()
   }),
 });
 

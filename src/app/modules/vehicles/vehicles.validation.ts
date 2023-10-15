@@ -16,6 +16,9 @@ const createVehicleZodSchema = z.object({
     categoryId: z.string({
       required_error: "Category Id is required!",
     }),
+    imageUrl: z.string({
+      required_error: "image is required!",
+    }).optional(),
   }),
 });
 
@@ -36,6 +39,9 @@ const updateVehicleZodSchema = z.object({
     categoryId: z.string({
       required_error: "Category Id is required!",
     }).optional(),
+    imageUrl: z.string({
+      required_error: "image is required!",
+    }).optional()
   }),
 });
 

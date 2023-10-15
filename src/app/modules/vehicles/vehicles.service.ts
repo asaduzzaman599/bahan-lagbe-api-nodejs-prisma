@@ -87,6 +87,10 @@ const findOneVehicle = async (id: string): Promise<Vehicle | null> => {
     where: {
       id,
     },
+    include: {
+      bookings: true,
+      category: true
+    },
   });
 
   if (!vehicleExist)

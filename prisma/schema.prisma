@@ -27,6 +27,7 @@ model User {
 
   bookings Booking[]
   reviewAndRatings ReviewAndRating[]
+  feedback Feedback[]
 
   @@map("users")
 }
@@ -56,6 +57,7 @@ model Vehicle{
   plateNumber String
   price Int @default(0)
   status VehicleStatus @default(AVAILABLE)
+  imageUrl String?
 
   categoryId String
   category Category @relation(fields: [categoryId], references: [id])
@@ -112,6 +114,32 @@ model ReviewAndRating {
 
   @@id([userId, bookingId]) 
   @@map("reviewAndRatings")
+}
+
+model Content {
+  id String @unique @default(uuid()) 
+  title String 
+  imageUrl String?
+  description String 
+
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@map("contents")
+}
+model Feedback {
+  id String @unique @default(uuid()) 
+  topic String 
+  message String 
+
+  userId String?
+  user User? @relation(fields: [userId], references: [id])
+
+
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@map("feedbacks")
 }
 
 
