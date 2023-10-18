@@ -1,15 +1,9 @@
 import { Request, Response } from "express";
 import app from "./app";
+import config from "./config"
 
 async function main() {
-  const PORT = 5000;
-  app.get("/", (req: Request, res: Response) => {
-    res.status(200).json({
-      success: true,
-      message: `Server running on port: ${PORT}`,
-    });
-
-  });
+  const PORT = config.PORT || 5000;
   
   app.listen(PORT, ()=>{
     console.log(`Server running on port: ${PORT}`)

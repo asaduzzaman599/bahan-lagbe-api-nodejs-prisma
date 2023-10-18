@@ -18,7 +18,7 @@ model User {
   password String
   role Role @default(customer)
   contactNo String
-  address String
+  address String?
   profileImg String?
 
   createdAt DateTime @default(now())

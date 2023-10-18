@@ -11,4 +11,5 @@ export default {
   JWT_SECRET_EXPIRY: process.env.JWT_SECRET_EXPIRY,
   BCRYPT_SALT_ROUNDS: Number(process.env.BCRYPT_SALT_ROUNDS),
   DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD,
+  ORIGIN_URL: process.env.ORIGIN_URL,
 };

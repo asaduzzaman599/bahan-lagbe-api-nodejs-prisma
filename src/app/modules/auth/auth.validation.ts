@@ -2,14 +2,11 @@ import { z } from "zod";
 const signInAuthZodSchema = z.object({
   body: z.object({
     email: z.string({
-      required_error: "ID is required!",
+      required_error: "email is required!",
     }),
     password: z.string({
       required_error: "password is required!",
     }),
-    profileImg:  z.string({
-      required_error: "Profile image is required!",
-    }).optional()
   }),
 });
 
@@ -32,7 +29,7 @@ const signUpAuthZodSchema = z.object({
     }),
     address: z.string({
       required_error: "Address is required!",
-    }),
+    }).optional(),
     profileImg:  z.string({
       required_error: "Profile image is required!",
     }).optional()
