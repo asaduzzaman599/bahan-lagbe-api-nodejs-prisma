@@ -8,14 +8,14 @@ import { VehicleValidation } from './vehicles.validation'
 
 const router = express.Router()
 
-router.route('/create-vehicle').post(validateRequest(VehicleValidation.createVehicleZodSchema), auth(Role.admin), VehicleController.insertVehicle)
+router.route('/create-vehicle').post(validateRequest(VehicleValidation.createVehicleZodSchema), auth(Role.admin, Role.super_admin), VehicleController.insertVehicle)
 
 router.route('/').get(VehicleController.findVehicles)
 
 router.route('/:categoryId/category').get(VehicleController.findVehicleByCategory)
 router.route('/:id')
 .get(VehicleController.findOneVehicle)
-.patch(validateRequest(VehicleValidation.updateVehicleZodSchema),auth(Role.admin), VehicleController.updateVehicle)
+.patch(validateRequest(VehicleValidation.updateVehicleZodSchema),auth(Role.admin, Role.super_admin), VehicleController.updateVehicle)
 .delete(auth(Role.admin), VehicleController.deleteVehicle)
 
 export const VehicleRouter = router

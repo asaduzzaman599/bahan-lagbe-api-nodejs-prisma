@@ -4,9 +4,11 @@ import config from "../../../config";
 import ApiError from "../../../errors/api-error";
 import prismaClient from "../../../shared/prisma-client";
 import { IValidateUser } from "../auth/auth.interface";
+import bcrypt from "bcrypt"
 
 const insertUser = async (payload: User): Promise<User> => {
   if (!payload.password) payload.password = config.DEFAULT_PASSWORD as string;
+  payload.password = await bcrypt.hash(payload.password, config.BCRYPT_SALT_ROUNDS)
   payload.role = Role.admin;
   const createdUser = await prismaClient.user.create({
     data: payload,

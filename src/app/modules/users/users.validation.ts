@@ -19,7 +19,7 @@ const createUserValidation = z.object({
     }),
     address: z.string({
       required_error: "Address is required!",
-    }),
+    }).optional(),
   }),
 });
 

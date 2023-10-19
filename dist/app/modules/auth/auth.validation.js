@@ -5,14 +5,11 @@ const zod_1 = require("zod");
 const signInAuthZodSchema = zod_1.z.object({
     body: zod_1.z.object({
         email: zod_1.z.string({
-            required_error: "ID is required!",
+            required_error: "email is required!",
         }),
         password: zod_1.z.string({
             required_error: "password is required!",
         }),
-        profileImg: zod_1.z.string({
-            required_error: "Profile image is required!",
-        }).optional()
     }),
 });
 const signUpAuthZodSchema = zod_1.z.object({
@@ -34,7 +31,7 @@ const signUpAuthZodSchema = zod_1.z.object({
         }),
         address: zod_1.z.string({
             required_error: "Address is required!",
-        }),
+        }).optional(),
         profileImg: zod_1.z.string({
             required_error: "Profile image is required!",
         }).optional()

@@ -30,6 +30,12 @@ const deleteUser = catchAsync(async (req, res) => {
   return responseData({ message: "User deleted  successfully", result }, res);
 });
 
+const getProfile = catchAsync(async (req, res) => {
+  const user = (req as any).user as IValidateUser;
+
+  const result = await  UserService.findOneUser(user.userId);
+  return responseData({ message: "User fetched successfully", result }, res);
+});
 const findOneUser = catchAsync(async (req, res) => {
   const id = req.params.id;
 
@@ -48,4 +54,5 @@ export const UserController = {
   deleteUser,
   findOneUser,
   findUsers,
+  getProfile
 };

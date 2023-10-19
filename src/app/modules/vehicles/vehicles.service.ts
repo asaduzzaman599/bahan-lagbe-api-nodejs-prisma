@@ -40,7 +40,7 @@ const updateVehicle = async (
   if (payload.plateNumber) {
     const exist = await prismaClient.vehicle.findMany({
       where: {
-        id: { not: payload.id },
+        id: { not:id },
       },
     });
     if (exist.length)
